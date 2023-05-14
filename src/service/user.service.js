@@ -14,6 +14,7 @@ function createToken(userName, id) {
     })
 }
 
+
 async function getUser(_id){
     return await User.findOne({_id})
     .populate({path:'contacts',model:User})
@@ -82,6 +83,10 @@ async function deleteContact(_id, contactId){
     )
 }
 
+async function getSocketId(_id){
+    return await User.findOne({_id}).select('socketId');
+}
+
 module.exports = {
     getUser,
     signUp,
@@ -89,5 +94,6 @@ module.exports = {
     updateUser,
     deleteUser,
     addContact,
-    deleteContact
+    deleteContact,
+    getSocketId
 }

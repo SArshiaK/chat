@@ -10,6 +10,8 @@ const userSchema = new mongoose.Schema({
     biography: {type: String, default: null},
     active: { type: Boolean, default: true },
     contacts: [{type: mongoose.Schema.Types.ObjectId, ref: "user"}],
+    socketId: { type: String, default: null },
+
 }, { timestamps: true })
 
 userSchema.plugin(mongoPaginate);
