@@ -9,6 +9,27 @@ async function createMessage(senderId, receiverId, data){
     return await Message.create(data);
 }
 
+async function updateMessage(_id, data){
+    const updatedMessage = await Message.updateOne({_id}, data);
+    return updatedMessage;
+}
+
+async function returnUnseenMessages(receiver){
+    const messages = await Message.find({receiver, seen: false})
+    .select("messageText receiver")
+    .populate({path:'receiver',model:User})
+    .populate({path:'sender',model:User});
+
+    messages.forEach((message) => {
+        var socketId = message.receiver.socketId;
+        var text = `${message.sender.userName}: ${message.messageText}`;
+        global.io.to(socketId).emit("chat message", { text, id: message._id });
+        // console.log(message.messageText);
+    })
+}
+
 module.exports = {
     createMessage,
+    updateMessage,
+    returnUnseenMessages
 }

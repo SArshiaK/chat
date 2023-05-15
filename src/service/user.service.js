@@ -48,7 +48,7 @@ async function login(userName, password) {
             const token = createToken(userName, user.id);
             const data = user.toJSON();
             Object.assign(data, { token: token });
-
+            // console.log(data)
             return data;
         }
         throw new Error('Password is wrong');

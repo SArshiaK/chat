@@ -15,6 +15,7 @@ const userTransform = (data) => {
         biography: data.biography,
         active: data.active,
         contacts: new ContactTransform().transformCollection(data.contacts),
+        token: data.token,
         createdAt: createdAt,
         updatedAt: updatedAt
     }
