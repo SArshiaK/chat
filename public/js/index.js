@@ -20,7 +20,6 @@ function signup() {
     })
     .then(response => response.json())
     .then(json => {
-        // console.log(json.response._id);
         // document.cookie = "senderId=" + json.response._id + json.response.token;
         document.cookie = json.response.token;
     });
@@ -45,8 +44,6 @@ function login(){
     })
     .then(response => response.json())
     .then(json => {
-        // console.log(json.response._id);
-        // console.log(json.response.token);
         console.log(json)
         
         // document.cookie = "senderId=" + json.response._id + json.response.token;

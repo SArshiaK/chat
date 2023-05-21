@@ -8,7 +8,6 @@ io("http://localhost:3000", (socket) => {
 });
 
 function sendMessage(msg) {
-    // console.log(msg);
     Socket.emit("chat message", msg)
 }
 

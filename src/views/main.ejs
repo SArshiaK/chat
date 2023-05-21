@@ -1,101 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Send Message</title>
-    <script type="text/javascript" src="js/decodetoken.js"></script>
-    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-    <!-- <script type="text/javascript" src="js/socket.js"></script> -->
+   
   </head>
   <body>
-    <h1>Write your message:</h1>
-
-    <label for="your message">Your message:</label><br />
-    <textarea id="message" rows="4" cols="50"></textarea><br /><br />
-    <!-- <input type="text" id="message" /> -->
-    <label for="userId">User ID:</label><br />
-    <input type="text" id="userId" /><br /><br />
-    <button onclick="send()" id="submitBtn">Submit</button>
-
-    <p id="messages"></p>
-
-    <style>
-      button {
-        width: 60px;
-        height: 35px;
-        border: none;
-        outline: none;
-        background: #53c080;
-        color: #fff;
-        font-size: 11px;
-        border-radius: 40px;
-        text-align: center;
-        box-shadow: 0 6px 20px -5px rgba(0, 0, 0, 0.4);
-        position: relative;
-        overflow: hidden;
-        cursor: pointer;
-      }
-      p {
-        background-color: #8bdee9;
-        padding-top: 1px;
-        padding-bottom: 1px;
-        margin-left: 15px;
-        border-radius: 30px;
-      }
-    </style>
-    <script>
-      function send() {
-        const message = document.getElementById("message").value;
-        const userId = document.getElementById("userId").value;
-        var senderId = document.getElementById("senderId");
-        const todo = {
-          messageText: message,
-        };
-        console.log(document.cookie);
-        fetch(`http://localhost:3000/api/message/${userId}`, {
-          method: "POST",
-          body: JSON.stringify(todo),
-          headers: {
-            "Content-type": "application/json; charset=UTF-8",
-            authorization: "bearer " + document.cookie,
-          },
-        })
-          .then((response) => response.json())
-          .then((json) => {
-            console.log(json);
-          });
-      }
-    </script>
-    <!-- <script src="/socket.io/socket.io.js"></script> -->
-    <script>
-      const senderId = decodeToken(document.cookie).id;
-      var socket = io.connect("", { query: `senderId=${senderId}` });
-      // var socket = io.connect();
-      var btn = document.getElementById("submitBtn");
-      var message = document.getElementById("message");
-      var messages = document.getElementById("messages");
-
-      socket.on("chat message", (msg) => {
-        var item = document.createElement("p");
-        item.textContent = msg.text;
-        messages.appendChild(item);
-        console.log(msg);
-        socket.emit("seen message", msg.id);
-      });
-
-      btn.addEventListener("click", function (e) {
-        const userId = document.getElementById("userId").value;
-        e.preventDefault();
-        if (message.value) {
-          //socket.emit("chat message",{receiverId: userId, msg: message.value,});
-
-          var item = document.createElement("p");
-          item.textContent = message.value;
-          messages.appendChild(item);
-        }
-      });
-    </script>
+    <div>
+      <%- include('./sendmessage.ejs') %>
+    </div>
   </body>
 </html>

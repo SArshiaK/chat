@@ -48,7 +48,6 @@ async function login(userName, password) {
             const token = createToken(userName, user.id);
             const data = user.toJSON();
             Object.assign(data, { token: token });
-            // console.log(data)
             return data;
         }
         throw new Error('Password is wrong');
@@ -83,6 +82,11 @@ async function deleteContact(_id, contactId){
     )
 }
 
+async function getContacts(_id){
+    const contacts = await User.find({_id}).populate({path: 'contacts', model: User}).select('contacts');
+    return contacts[0].contacts;
+}
+
 async function getSocketId(_id){
     return await User.findOne({_id}).select('socketId');
 }
@@ -95,5 +99,6 @@ module.exports = {
     deleteUser,
     addContact,
     deleteContact,
+    getContacts,
     getSocketId
 }

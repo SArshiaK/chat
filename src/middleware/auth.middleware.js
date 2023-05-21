@@ -35,7 +35,37 @@ const requireAuth = (req, res, next) => {
 
 };
 
+// const requireCookie = (req, res, next) => {
+
+//     const token = document.cookie.split(' ')[1];
+
+//     if (!token) {
+//         return res.status(400).send({ success: false, message: 'token does not exist' });
+//     }
+
+//     jwt.verify(token, JWT_SECRET, async (err, decodedToken) => {
+
+//         if (err) {
+//             return res.status(400).send({ success: false, message: err.message });
+//         }
+
+//         const user = await User.findOne({_id: decodedToken['id']});
+//         if(!user){
+//             return res.status(400).send({ success: false, message: "User not found" });
+//         }
+//         if(!user.active){
+//             return res.status(400).send({ success: false, message: "User is blocked" });
+//         }
+
+//         req.User = user;
+//         next();
+
+//     });
+
+// };
+
 
 module.exports = {
     requireAuth,
+    // requireCookie
 }

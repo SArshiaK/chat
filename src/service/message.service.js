@@ -24,7 +24,6 @@ async function returnUnseenMessages(receiver){
         var socketId = message.receiver.socketId;
         var text = `${message.sender.userName}: ${message.messageText}`;
         global.io.to(socketId).emit("chat message", { text, id: message._id });
-        // console.log(message.messageText);
     })
 }
 

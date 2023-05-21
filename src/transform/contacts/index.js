@@ -3,7 +3,6 @@ const {calculateStartDate} = require('../../utils/utils')
 
 class ContactTransform extends Transform {
     transform(data) {
-        // console.log(data)
         return {
             _id: data._id,
             phoneNumber: data.phoneNumber,
