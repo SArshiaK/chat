@@ -26,7 +26,7 @@ app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
 app.use("/api", handleResponse, apiRouter);
-// app.use("/public", express.static(path.join(__dirname, "./public")));
+app.use("/public", express.static(path.join(__dirname, "./public")));
 
 app.set('views', path.join(__dirname, './src/views'));
 app.set('view engine', 'ejs');
@@ -56,7 +56,6 @@ global.io.on("connection", async (socket) => {
   console.log(senderId)
 
   await updateUser(senderId, { socketId: socket.id });
-
   await returnUnseenMessages(senderId, fromUserId);
   
   socket.on("disconnect", () => {

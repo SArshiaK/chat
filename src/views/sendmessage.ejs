@@ -51,13 +51,16 @@
       function send() {
         const message = document.getElementById("message").value;
         // const userId = document.getElementById("userId").value;
-        const userId = window.location.href.split('/')[4];
+        const sendToUser = window.location.href.split('/')[4];
+        // console.log(sendToUser)
         // var senderId = document.getElementById("senderId");
+        // Create Message
         const todo = {
           messageText: message,
+          // sendToUser
         };
         console.log(document.cookie);
-        fetch(`http://localhost:3000/api/message/${userId}`, {
+        fetch(`http://localhost:3000/api/message/${sendToUser}`, {
           method: "POST",
           body: JSON.stringify(todo),
           headers: {
@@ -92,11 +95,18 @@
       var messages = document.getElementById("messages");
 
       socket.on("chat message", (msg) => {
+        console.log(window.location.href.split('/')[4]);
+        // if(window.location.href.split('/')[4] === sendeId)
+        console.log(socket);
         var item = document.createElement("p");
-        item.textContent = msg.text;
-        messages.appendChild(item);
-        console.log(msg);
-        socket.emit("seen message", msg.id);
+        console.log('fromUserId', fromUserId)
+        console.log('senderId',senderId)
+        if(fromUserId === msg.senderId){
+          item.textContent = msg.text;
+          messages.appendChild(item);
+          console.log(msg);
+          socket.emit("seen message", msg.id);
+        }
       });
 
       btn.addEventListener("click", function (e) {

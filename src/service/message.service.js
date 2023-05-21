@@ -19,11 +19,10 @@ async function returnUnseenMessages(receiver, sender){
     .select("messageText receiver")
     .populate({path:'receiver',model:User})
     .populate({path:'sender',model:User});
-
     messages.forEach((message) => {
         var socketId = message.receiver.socketId;
         var text = `${message.sender.userName}: ${message.messageText}`;
-        global.io.to(socketId).emit("chat message", { text, id: message._id });
+        global.io.to(socketId).emit("chat message", { text, id: message._id, senderId: message.sender._id});
     })
 }
 
