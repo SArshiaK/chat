@@ -82,7 +82,10 @@
       }).join(''));
       const user =  JSON.parse(jsonPayload);
       const senderId = user.id;
-      var socket = io.connect("", { query: `senderId=${senderId}` });
+      const fromUserId = window.location.href.split('/')[4]
+    //   var socket = io.connect("", { query: `senderId=${senderId}` });
+      var socket = io.connect("", { query: {senderId, fromUserId} });
+
       // var socket = io.connect();
       var btn = document.getElementById("submitBtn");
       var message = document.getElementById("message");

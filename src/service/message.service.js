@@ -14,8 +14,8 @@ async function updateMessage(_id, data){
     return updatedMessage;
 }
 
-async function returnUnseenMessages(receiver){
-    const messages = await Message.find({receiver, seen: false})
+async function returnUnseenMessages(receiver, sender){
+    const messages = await Message.find({receiver, sender, seen: false})
     .select("messageText receiver")
     .populate({path:'receiver',model:User})
     .populate({path:'sender',model:User});

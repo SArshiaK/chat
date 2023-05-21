@@ -51,13 +51,13 @@ app.get('/signup', function(req, res){
 
 global.io.on("connection", async (socket) => {
   console.log("a user connected", socket.id);
-  
   const senderId = socket.handshake.query.senderId;
+  const fromUserId = socket.handshake.query.fromUserId;
   console.log(senderId)
 
   await updateUser(senderId, { socketId: socket.id });
 
-  await returnUnseenMessages(senderId);
+  await returnUnseenMessages(senderId, fromUserId);
   
   socket.on("disconnect", () => {
     console.log("user disconnected");
