@@ -1,55 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up</title>
     <script type="text/javascript" src="js/index.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Sign up</h1>
-  <label for="username">User name:</label><br>
-  <input type="text" id="username"><br><br>
-  <label for="password">Password:</label><br>
-  <input type="text" id="password"><br><br>
-  <label for="pname">Profile name:</label><br>
-  <input type="text" id="pname"><br><br>
-  <label for="phone">Phone number:</label><br>
-  <input type="text" id="phone" ><br><br>
-  <!-- <input type="submit" value="Submit" onsubmit="signup()"> -->
-  <button onclick="signup()">Submit</button>
+    <label for="username">User name:</label><br />
+    <input type="text" id="username" /><br /><br />
+    <label for="password">Password:</label><br />
+    <input type="text" id="password" /><br /><br />
+    <label for="pname">Profile name:</label><br />
+    <input type="text" id="pname" /><br /><br />
+    <label for="phone">Phone number:</label><br />
+    <input type="text" id="phone" /><br /><br />
+    <button onclick="signup()">Submit</button>
 
-  <script>
+    <script>
       function signup() {
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
-    const pname = document.getElementById("pname").value;
-    const phone = document.getElementById("phone").value;
-    const todo = {
-      userName: username,
-      password: password,
-      profileName: pname,
-      phoneNumber: phone,
-      
-    };
-    fetch('http://localhost:3000/api/user/signup', {
-      method: 'POST',
-      body: JSON.stringify(todo),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8'
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const pname = document.getElementById("pname").value;
+        const phone = document.getElementById("phone").value;
+        const todo = {
+          userName: username,
+          password: password,
+          profileName: pname,
+          phoneNumber: phone,
+        };
+        fetch("http://localhost:3000/api/user/signup", {
+          method: "POST",
+          body: JSON.stringify(todo),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+        })
+          .then((response) => response.json())
+          .then((json) => {
+            document.cookie = json.response.token;
+            const userId = json.response._id;
+            window.location.href = `http://localhost:3000/contacts/${userId}`;
+          });
       }
-    })
-    .then(response => response.json())
-    .then(json => {
-        // document.cookie = "senderId=" + json.response._id + json.response.token;
-        document.cookie = json.response.token;
-        const userId = json.response._id;
-        window.location.href =`http://localhost:3000/contacts/${userId}`;
-
-    });
-}
-
-  </script>
-</body>
+    </script>
+  </body>
 </html>

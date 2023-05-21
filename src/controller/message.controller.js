@@ -17,7 +17,22 @@ async function httpCreateMessage(req, res){
     }
 }
 
+async function httpMessagesHistory(req, res){
+    const senderId = req.User.id;
+    const receiverId = req.params.id;
+
+    try {
+        const messages = await messageService.messagesHistory(receiverId, senderId);
+        res.response({result: messages, statusCode: 201,});
+
+    } catch (e) {
+        console.log(e);
+        res.exception({statusCode: 400, message: e.message});
+    }
+}
+
 
 module.exports = {
     httpCreateMessage,
+    httpMessagesHistory
 }

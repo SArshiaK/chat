@@ -26,8 +26,18 @@ async function returnUnseenMessages(receiver, sender){
     })
 }
 
+async function messagesHistory(receiver, sender){
+    const messages =  await Message.find()
+        .or([{receiver, sender, seen: true}, {receiver: sender, sender: receiver, seen: true}])
+        .select("messageText sender createdAt")
+        .populate({path:'sender',model:User})
+        // .sort([['createdAt', -1]]);         
+    return messages;
+}
+
 module.exports = {
     createMessage,
     updateMessage,
-    returnUnseenMessages
+    returnUnseenMessages,
+    messagesHistory
 }

@@ -18,7 +18,9 @@ const { updateUser, getSocketId } = require("./src/service/user.service");
 const { updateMessage, returnUnseenMessages } = require('./src/service/message.service');
 
 const ejs = require('./src/service/ejs.service');
-const {requireAuth} = require('./src/middleware/auth.middleware')
+const {requireAuth} = require('./src/middleware/auth.middleware');
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
 
 global.io = io;
 
@@ -38,9 +40,13 @@ app.get('/login', function(req, res){
 })
 
 app.get('/contacts/:id', ejs.contacts);
-app.get('/sendmessage/:id', function(req, res){
-  res.render('sendmessage', {})
-})
+app.get('/sendmessage/:id', ejs.history);
+
+
+// app.get('/sendmessage/:id', function(req, res){
+//   res.render('sendmessage', {})
+// });
+
 app.get('/main', function(req, res){
   res.render('main', {})
 })

@@ -5,21 +5,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Send Message</title>
-    <!-- <script type="text/javascript" src="js/decodetoken.js"></script> -->
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-    <!-- <script type="text/javascript" src="js/socket.js"></script> -->
+    <script type="text/javascript" src="../../public/js/decodetoken.js"></script>
   </head>
   <body>
     <h1>Write your message:</h1>
 
     <label for="your message">Your message:</label><br />
     <textarea id="message" rows="4" cols="50"></textarea><br /><br />
-    <!-- <input type="text" id="message" /> -->
     <label for="userId">User ID:</label><br />
     <input type="text" id="userId" /><br /><br />
-    <button onclick="send()" id="submitBtn">Submit</button>
 
-    <p id="messages"></p>
+    <button onclick="send()" id="submitBtn">Submit</button><br/>
+
+    <div id="messages">
+      <div id="history">
+        <% messages.forEach(function(message) { %>
+          <strong><%= message.sender.profileName %>: </strong><%= message.messageText %><br>
+      <% }); %>
+      </div>
+    </div>
+    
 
     <style>
       button {
@@ -37,29 +43,32 @@
         overflow: hidden;
         cursor: pointer;
       }
-      p {
-        background-color: #8bdee9;
+      #messages {
+        background-color: #9be4ee;
         padding-top: 1px;
         padding-bottom: 1px;
         margin-left: 15px;
         border-radius: 30px;
+        margin-top: 5px;
+      }
+      #history{
+        margin-left: 3%;
+        margin-top: 1%;
+        margin-bottom: 1%;
+        overflow: auto;
+
       }
     </style>
     <script>
-        const is = window.location.href.split('/')[4];
-        console.log(is)
+
       function send() {
         const message = document.getElementById("message").value;
-        // const userId = document.getElementById("userId").value;
-        const sendToUser = window.location.href.split('/')[4];
-        // console.log(sendToUser)
-        // var senderId = document.getElementById("senderId");
-        // Create Message
+        const sendToUser = window.location.href.split("/")[4];
         const todo = {
           messageText: message,
-          // sendToUser
         };
         console.log(document.cookie);
+
         fetch(`http://localhost:3000/api/message/${sendToUser}`, {
           method: "POST",
           body: JSON.stringify(todo),
@@ -74,34 +83,28 @@
           });
       }
     </script>
-    <!-- <script src="/socket.io/socket.io.js"></script> -->
     <script>
-    //   const senderId = decodeToken(document.cookie).id;
-      const token = document.cookie;
-      var base64Url = token.split('.')[1];
-      var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
-          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      const user =  JSON.parse(jsonPayload);
-      const senderId = user.id;
-      const fromUserId = window.location.href.split('/')[4]
-    //   var socket = io.connect("", { query: `senderId=${senderId}` });
-      var socket = io.connect("", { query: {senderId, fromUserId} });
+      const element = document.getElementById('history');
+      console.log(element.scrollHeight)
+      element.scrollTop = element.scrollHeight;
 
-      // var socket = io.connect();
+      const token = document.cookie;
+      const user = decodeToken(token);
+      const senderId = user.id;
+      const fromUserId = window.location.href.split("/")[4];
+      var socket = io.connect("", { query: { senderId, fromUserId } });
+
       var btn = document.getElementById("submitBtn");
       var message = document.getElementById("message");
-      var messages = document.getElementById("messages");
+      var messages = document.getElementById("history");
 
       socket.on("chat message", (msg) => {
-        console.log(window.location.href.split('/')[4]);
-        // if(window.location.href.split('/')[4] === sendeId)
+        console.log(window.location.href.split("/")[4]);
         console.log(socket);
         var item = document.createElement("p");
-        console.log('fromUserId', fromUserId)
-        console.log('senderId',senderId)
-        if(fromUserId === msg.senderId){
+        console.log("fromUserId", fromUserId);
+        console.log("senderId", senderId);
+        if (fromUserId === msg.senderId) {
           item.textContent = msg.text;
           messages.appendChild(item);
           console.log(msg);
@@ -113,8 +116,6 @@
         const userId = document.getElementById("userId").value;
         e.preventDefault();
         if (message.value) {
-          //socket.emit("chat message",{receiverId: userId, msg: message.value,});
-
           var item = document.createElement("p");
           item.textContent = message.value;
           messages.appendChild(item);
