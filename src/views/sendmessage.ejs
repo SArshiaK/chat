@@ -6,7 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Send Message</title>
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-    <script type="text/javascript" src="../../public/js/decodetoken.js"></script>
+    <script
+      type="text/javascript"
+      src="../../public/js/decodetoken.js"
+    ></script>
   </head>
   <body>
     <h1>Write your message:</h1>
@@ -16,16 +19,26 @@
     <label for="userId">User ID:</label><br />
     <input type="text" id="userId" /><br /><br />
 
-    <button onclick="send()" id="submitBtn">Submit</button><br/>
+    <button onclick="send()" id="submitBtn">Submit</button><br />
 
     <div id="messages">
       <div id="history">
         <% messages.forEach(function(message) { %>
-          <strong><%= message.sender.profileName %>: </strong><%= message.messageText %><br>
-      <% }); %>
+        <strong><%= message.sender.profileName %>: </strong><%=
+        message.messageText %><br />
+        <% }); %>
       </div>
     </div>
-    
+    <div class="pagination">
+      <a href='#'>&laquo;</a>
+      <a href="#">1</a>
+      <a href="#">2</a>
+      <a href="#">3</a>
+      <a href="#">4</a>
+      <a href="#">5</a>
+      <a href="#">6</a>
+      <a href="#">&raquo;</a>
+    </div>
 
     <style>
       button {
@@ -51,16 +64,30 @@
         border-radius: 30px;
         margin-top: 5px;
       }
-      #history{
+      #history {
         margin-left: 3%;
         margin-top: 1%;
         margin-bottom: 1%;
         overflow: auto;
+      }
+      .pagination {
+        display: inline-block;
+      }
 
+      .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
+
+      .pagination a.active {
+        background-color: #4caf50;
+        color: white;
       }
     </style>
     <script>
-
       function send() {
         const message = document.getElementById("message").value;
         const sendToUser = window.location.href.split("/")[4];
@@ -84,8 +111,8 @@
       }
     </script>
     <script>
-      const element = document.getElementById('history');
-      console.log(element.scrollHeight)
+      const element = document.getElementById("history");
+      console.log(element.scrollHeight);
       element.scrollTop = element.scrollHeight;
 
       const token = document.cookie;
