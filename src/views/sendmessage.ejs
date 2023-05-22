@@ -29,16 +29,6 @@
         <% }); %>
       </div>
     </div>
-    <div class="pagination">
-      <a href='#'>&laquo;</a>
-      <a href="#">1</a>
-      <a href="#">2</a>
-      <a href="#">3</a>
-      <a href="#">4</a>
-      <a href="#">5</a>
-      <a href="#">6</a>
-      <a href="#">&raquo;</a>
-    </div>
 
     <style>
       button {
@@ -88,6 +78,12 @@
       }
     </style>
     <script>
+      function next(){
+        const current  = window.location.href;
+        var pageNumber = current.split('/')[5];
+        console.log(current)
+      }
+
       function send() {
         const message = document.getElementById("message").value;
         const sendToUser = window.location.href.split("/")[4];
